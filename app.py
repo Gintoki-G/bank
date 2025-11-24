@@ -11,7 +11,7 @@ USERS = {
 #2. 함수            → 실행할 코드
 #3. return          → HTML or redirect
 
-@app.route(/,methods=['GET', 'POST'])
+@app.route('/',methods=['GET', 'POST'])
 def login() :
     if requset.method == "post" :
         useremail = request.form['email']
@@ -24,6 +24,6 @@ def login() :
         else :
             return "로그인 실패"
     return render_template("login.html")
-    
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
