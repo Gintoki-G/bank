@@ -3,7 +3,7 @@ app = Flask(__name__)
 app.secret_key = "test"
 
 USERS = {
-    "admin@naver.com": {"password": "1234", "balance": 500000}
+    "admin@naver.com": {"password": "123400", "balance": 500000}
 }
 
 #flask의 기본구조
