@@ -3,7 +3,7 @@ app = Flask(__name__)
 app.secret_key = "test"
 
 USERS = {
-    "admin": {"password": "1234", "balance": 500000}
+    "admin@naver.com": {"password": "1234", "balance": 500000}
 }
 
 #flask의 기본구조
@@ -14,7 +14,7 @@ USERS = {
 @app.route('/',methods=['GET', 'POST'])
 def login() :
     if request.method == "Post" :
-        useremail = request.form['email']
+        useremail = request.form['email']ㅋ
         password = request.form['password']
 
         user = USERS.get('useremail')
