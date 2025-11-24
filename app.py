@@ -18,7 +18,7 @@ def login() :
         password = request.form['password']
 
         user = USERS.get['useremail']
-        if useremail and user["password"] = password :
+        if useremail and user["password"] == password :
             session['useremail'] = useremail
             return redirect(url_for("dashboard"))
         else :
