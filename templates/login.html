@@ -1,1 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>로그인</title>
+  <style>
+    :root{--bg:#f3f4f6;--card:#ffffff;--accent:#2563eb;--muted:#6b7280}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Noto Sans KR',sans-serif;background:var(--bg);color:#111}
+    .wrap{min-height:100vh;display:grid;place-items:center;padding:32px}
+    .card{width:100%;max-width:420px;background:var(--card);border-radius:12px;box-shadow:0 6px 24px rgba(16,24,40,0.08);padding:28px}
+    h1{margin:0 0 16px;font-size:20px}
+    p.lead{margin:0 0 22px;color:var(--muted);font-size:14px}
+
+    label{display:block;font-size:13px;margin-bottom:6px}
+    input[type="text"],input[type="email"],input[type="password"]{width:100%;padding:10px 12px;border:1px solid #e6e7eb;border-radius:8px;font-size:14px}
+    .row{display:flex;gap:12px}
+    .actions{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+    .btn{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:8px;font-weight:600;cursor:pointer}
+    .secondary{background:transparent;border:1px solid #e6e7eb;color:var(--muted);padding:9px 12px;border-radius:8px;cursor:pointer}
+    .small{font-size:13px;color:var(--muted)}
+    .help{font-size:13px;color:var(--muted);margin-top:12px;text-align:center}
+    .error{color:#b91c1c;font-size:13px;margin-top:8px}
+    .flex-between{display:flex;align-items:center;gap:8px}
+    .show-pass{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px}
+
+    @media (max-width:480px){.card{padding:20px;border-radius:10px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <form class="card" id="loginForm" method="POST" action="/login" novalidate>
+      <h1>로그인</h1>
+      <p class="lead">이메일과 비밀번호로 로그인하세요.</p>
+
+      <!-- 이메일 -->
+      <div>
+        <label for="email">이메일</label>
+        <input id="email" name="email" type="email" inputmode="email" placeholder="you@example.com" required aria-required="true">
+        <div class="error" id="emailError" aria-live="polite" style="display:none"></div>
+      </div>
+
+      <!-- 비밀번호 -->
+      <div style="margin-top:12px">
+        <label for="password">비밀번호</label>
+        <div class="row">
+          <input id="password" name="password" type="password" placeholder="비밀번호를 입력하세요" required aria-required="true" style="flex:1">
+          <button type="button" class="show-pass" id="togglePass" aria-pressed="false">표시</button>
+        </div>
+        <div class="error" id="passError" aria-live="polite" style="display:none"></div>
+      </div>
+
+      <div class="actions" style="margin-top:16px">
+        <label class="flex-between small"><input type="checkbox" name="remember"> 로그인 유지</label>
+        <a class="small" href="/forgot">비밀번호를 잊으셨나요?</a>
+      </div>
+
+      <div style="margin-top:18px;display:flex;gap:10px">
+        <button class="btn" type="submit">로그인</button>
+        <a class="secondary" href="/register">회원가입</a>
+      </div>
+
+      <div class="help">또는 소셜 로그인 제공자를 사용하세요 (예: Google, GitHub)</div>
+    </form>
+  </div>
+
+  <script>
+    // 간단한 클라이언트 유효성 검사 + 비밀번호 표시 토글
+    const form = document.getElementById('loginForm');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passError = document.getElementById('passError');
+    const toggle = document.getElementById('togglePass');
+
+    toggle.addEventListener('click', ()=>{
+      const isPwd = password.type === 'password';
+      password.type = isPwd ? 'text' : 'password';
+      toggle.textContent = isPwd ? '숨기기' : '표시';
+      toggle.setAttribute('aria-pressed', String(isPwd));
+    });
+
+    function showError(el, msg){ el.style.display='block'; el.textContent = msg; }
+    function clearError(el){ el.style.display='none'; el.textContent = ''; }
+
+    form.addEventListener('submit', (e)=>{
+      let ok = true;
+      clearError(emailError); clearError(passError);
+
+      // 이메일 포맷 체크
+      if(!email.value.trim()){
+        showError(emailError, '이메일을 입력하세요.'); ok = false;
+      } else if(!/^\S+@\S+\.\S+$/.test(email.value)){
+        showError(emailError, '유효한 이메일을 입력하세요.'); ok = false;
+      }
+
+      // 비밀번호 최소 길이 체크
+      if(!password.value){ showError(passError, '비밀번호를 입력하세요.'); ok = false; }
+      else if(password.value.length < 6){ showError(passError, '비밀번호는 최소 6자 이상이어야 합니다.'); ok = false; }
+
+      if(!ok) e.preventDefault();
+      // 서버로 전달할 때는 HTTPS와 서버 측 검증이 필수입니다.
+    });
+  </script>
+</body>
+</html>
 

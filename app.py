@@ -10,3 +10,17 @@ USERS = {
 #1. @app.route()    → URL 등록
 #2. 함수            → 실행할 코드
 #3. return          → HTML or redirect
+
+@app.route(/,methods=['GET', 'POST'])
+def login() :
+    if requset.method == "post" :
+        useremail = request.form['email']
+        password = request.form['password']
+
+        user = USERS.get['useremail']
+        if useremail and user["password"] = password :
+            session['useremail'] = useremail
+            return redirect(url_for("dashboard"))
+        else :
+            return "로그인 실패"
+    return render_template("login.html")
