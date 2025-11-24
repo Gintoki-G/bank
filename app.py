@@ -1,43 +1,36 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = "test"
-#데이터 베이스 연결 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-# SQLite 사용 예시
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydb.sqlite3'
 
 db = SQLAlchemy(app)
 
-@app.route('/create')
-def create():
-    db.create_all()
-    return "DB 생성 완료"
-
-@app.route('/add')
-@app.route('/add')
-def add():
-    # 테스트용 유저 추가
-    test_user = User(
-        email="test@example.com",
-        password="1234",
-        name="테스트",
-        balance=50000
-    )
-    # DB에 추가
-    db.session.add(test_user)
-    db.session.commit()
-    return "테스트 유저 추가 완료!"
-
-#데이터 베이스 연결 완료
+# =========================
+# 모델 정의
+# =========================
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(100))
     balance = db.Column(db.Integer, default=50000)
+
+# =========================
+# 라우트
+# =========================
+@app.route('/create')
+def create():
+    db.create_all()
+    return "DB 생성 완료"
+
+@app.route('/add')
+def add():
+    test_user = User(email="test@example.com", password="1234", name="테스트")
+    db.session.add(test_user)
+    db.session.commit()
+    return "테스트 유저 추가 완료!"
 #flask의 기본구조
 #1. @app.route()    → URL 등록
 #2. 함수            → 실행할 코드
