@@ -13,12 +13,15 @@ USERS = {
 
 @app.route('/',methods=['GET', 'POST'])
 def login() :
-    if requset.method == "post" :
+    if request.method == "Post" :
         useremail = request.form['email']
         password = request.form['password']
 
-        user = USERS.get['useremail']
-        if useremail and user["password"] == password :
+        user = USERS.get('useremail')
+        #user = {"password": "1234", "balance": 500000}
+        #if True and user["password"] == password:
+
+        if  user and user["password"] == password :
             session['useremail'] = useremail
             return redirect(url_for("dashboard"))
         else :
