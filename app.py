@@ -14,7 +14,7 @@ USERS = {
 @app.route('/',methods=['GET', 'POST'])
 def login() :
     if request.method == "Post" :
-        useremail = request.form['email']ㅋ
+        useremail = request.form['email']
         password = request.form['password']
 
         user = USERS.get('useremail')
