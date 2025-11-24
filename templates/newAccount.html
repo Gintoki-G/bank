@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회원가입</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      width: 100%;
+      max-width: 420px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-link {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .login-link a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>회원가입</h2>
+    <form method="POST" action="/register">
+
+      <label for="email">이메일</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+      <label for="password">비밀번호</label>
+      <input type="password" id="password" name="password" placeholder="6자 이상 입력" required />
+
+      <label for="pw2">비밀번호 확인</label>
+      <input type="password" id="pw2" name="pw2" placeholder="다시 입력" required />
+
+      <label for="name">이름</label>
+      <input type="text" id="name" name="name" placeholder="홍길동" required />
+
+      <button type="submit">가입하기</button>
+    </form>
+
+    <div class="login-link">
+      이미 계정이 있으신가요? <a href="/">로그인</a>
+    </div>
+  </div>
+</body>
+</html>
