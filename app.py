@@ -95,12 +95,12 @@ def dashboard():
         return redirect(url_for('login'))
 
     return render_template(
-        "dashboard.html",3
+        "dashboard.html",
         username = user.name,
         name = user.name,
         balance = user.balance
     )
-    
+
 @app.route('/transfer', methods=['GET', 'POST'])
 def transfer():
     # 로그인 사용자 확인
