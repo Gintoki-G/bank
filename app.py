@@ -78,9 +78,34 @@ def newAccount():
 
     return render_template("newAccount.html")
 
+#class User(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    email = db.Column(db.String(120), unique=True)
+#    password = db.Column(db.String(100))
+#    name = db.Column(db.String(100))
+#    balance = db.Column(db.Integer, default=50000)
+
 
 @app.route('/dashboard')
 def dashboard():
-    return "대시보드 준비중!"
+    # 세션의 이메일로 DB에서 유저 찾기
+    user = User.query.filter_by(email=session['useremail']).first()
+
+    if not user:
+        return redirect(url_for('login'))
+
+    return render_template(
+        "dashboard.html",3
+        username = user.name,
+        name = user.name,
+        balance = user.balance
+    )
+
+@app.route('/transfer-form'],methods=['GET','POST'])
+def transfer-form() :
+    if request.method == "POST" :
+        useremail = request.form['email']
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
