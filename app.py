@@ -88,7 +88,9 @@ def newAccount():
 
 @app.route('/dashboard')
 def dashboard():
-    # 세션의 이메일로 DB에서 유저 찾기
+    if 'useremail' not in session:
+        return redirect(url_for('login'))
+
     user = User.query.filter_by(email=session['useremail']).first()
 
     if not user:
@@ -96,9 +98,8 @@ def dashboard():
 
     return render_template(
         "dashboard.html",
-        username = user.name,
-        name = user.name,
-        balance = user.balance
+        user=user,                 # 핵심!
+        transactions=[]            # 혹시 없으면 빈 리스트라도 넘김
     )
 
 @app.route('/transfer', methods=['GET', 'POST'])
