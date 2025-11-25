@@ -17,6 +17,13 @@ class User(db.Model):
     name = db.Column(db.String(100))
     balance = db.Column(db.Integer, default=50000)
 
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_email = db.Column(db.String(120))
+    date = db.Column(db.String(120))
+    desc = db.Column(db.String(200))
+    amount = db.Column(db.String(20))
+
 # =========================
 # 라우트
 # =========================
@@ -96,10 +103,12 @@ def dashboard():
     if not user:
         return redirect(url_for('login'))
 
+    transactions = Transaction.query.filter_by(user_email=user.email).all()
+    
     return render_template(
         "dashboard.html",
         user=user,                 # 핵심!
-        transactions=[]            # 혹시 없으면 빈 리스트라도 넘김
+        transactions=transactions            # 혹시 없으면 빈 리스트라도 넘김
     )
 
 @app.route('/transfer', methods=['GET', 'POST'])
