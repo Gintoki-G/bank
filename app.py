@@ -100,12 +100,40 @@ def dashboard():
         name = user.name,
         balance = user.balance
     )
+    
+@app.route('/transfer', methods=['GET', 'POST'])
+def transfer():
+    # 로그인 사용자 확인
+    user = User.query.filter_by(email=session.get('useremail')).first()
+    if not user:
+        return redirect(url_for('login'))
 
-@app.route('/transfer-form'],methods=['GET','POST'])
-def transfer-form() :
-    if request.method == "POST" :
-        useremail = request.form['email']
+    if request.method == "POST":
+        toemail = request.form['to']
+        amount = int(request.form['amount'])  # 숫자로 변환
 
+        # 1) 자기 자신에게 송금 불가
+        if toemail == user.email:
+            return "자기 자신에게는 송금할 수 없습니다."
+
+        # 2) 받는 사람 검색
+        receiver = User.query.filter_by(email=toemail).first()
+
+        if not receiver:
+            return "받는 사람이 존재하지 않습니다."
+
+        # 3) 잔액 부족 확인
+        if user.balance < amount:
+            return "잔액이 부족합니다."
+
+        # 4) 송금 처리
+        user.balance -= amount
+        receiver.balance += amount
+        db.session.commit()
+
+        return redirect(url_for("dashboard"))
+
+    return redirect(url_for("dashboard"))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
